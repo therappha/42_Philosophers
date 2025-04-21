@@ -1,37 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/11 20:06:52 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/04/20 20:32:23 by rafaelfe         ###   ########.fr       */
+/*   Created: 2025/04/20 19:14:09 by rafaelfe          #+#    #+#             */
+/*   Updated: 2025/04/20 19:22:36 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-void	init_time(int ac, char **av, t_times *times)
+int	ft_atoi(char *str)
 {
-	times -> philo_count = ft_atoi(av[1]);
-	times -> time_to_die = ft_atoi(av[2]);
-	times -> time_to_eat = ft_atoi(av[3]);
-	times -> time_to_sleep = ft_atoi(av[4]);
-	if (ac == 6)
-		times -> must_eat = ft_atoi(av[5]);
-	else
-		times -> must_eat = -1;
-}
+	int		i;
+	long	n;
+	int		sign;
 
-
-int	main(int ac, char **av)
-{
-	t_times	times;
-
-	if (ac != 5 && ac != 6)
-		return (0);
-	init_time(ac, av, &times);
-
-
+	sign = 1;
+	n = 0;
+	i = 0;
+	while (str[i] >= 9 && str[i] <= 13)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -sign;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		n = n * 10 + str[i] - '0';
+		i++;
+	}
+	return ((int)(n) * sign);
 }

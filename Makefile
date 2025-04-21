@@ -1,9 +1,9 @@
 NAME= philo
 CC= cc
-CFLAGS = -g -Wall -Werror -Wextra -I $(INCLUDES)
+CFLAGS = -g -Wall -Werror -pthread -Wextra -I $(INCLUDES)
 INCLUDES= ./includes
 SRCS_DIR= ./srcs
-SRCS= $(SRCS_DIR)/main.c
+SRCS= $(SRCS_DIR)/main.c $(SRCS_DIR)/ft_atoi.c
 OBJS= $(SRCS:.c=.o)
 
 all: $(NAME)
