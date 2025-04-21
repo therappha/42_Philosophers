@@ -3,7 +3,7 @@ CC= cc
 CFLAGS = -g -Wall -Werror -pthread -Wextra -I $(INCLUDES)
 INCLUDES= ./includes
 SRCS_DIR= ./srcs
-SRCS= $(SRCS_DIR)/main.c $(SRCS_DIR)/ft_atoi.c
+SRCS= $(SRCS_DIR)/main.c $(SRCS_DIR)/ft_atoi.c $(SRCS_DIR)/pthread_helpers.c
 OBJS= $(SRCS:.c=.o)
 
 all: $(NAME)
