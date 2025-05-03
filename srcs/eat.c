@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:43:53 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/03 19:38:58 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/03 20:40:51 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ void	release_forks(t_philo *philo)
 int	eating(t_philo *philo)
 {
 	if (ft_get_int(&philo->table->table_mtx, &philo->table->end_simulation) ||
-		philo->eated == philo->table->must_eat)
+		(philo->table->must_eat != -1 && philo->eaten == philo->table->must_eat))
 			return (0);
 	get_first_fork(philo);
 	get_second_fork(philo);
 	write_state(philo, EATING);
 	pthread_mutex_lock(&philo->philo_mutex);
 	philo->last_eaten = get_time();
-	philo->eated++;
+	philo->eaten++;
 	pthread_mutex_unlock(&philo->philo_mutex);
 	usleep(philo->table->time_to_eat * 1000);
 	release_forks(philo);

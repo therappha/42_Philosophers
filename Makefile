@@ -16,7 +16,8 @@ $(SRCS_DIR)/state.c \
 $(SRCS_DIR)/routine.c \
 $(SRCS_DIR)/eat.c \
 $(SRCS_DIR)/think.c \
-$(SRCS_DIR)/sleep.c
+$(SRCS_DIR)/sleep.c \
+$(SRCS_DIR)/monitor.c
 
 OBJS= $(SRCS:.c=.o)
 

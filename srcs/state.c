@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 15:08:51 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/03 19:40:11 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/03 20:38:00 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 void	write_state(t_philo *philo, t_state state)
 {
 	pthread_mutex_lock(&philo->table->write_mtx);
+	if (ft_get_int(&philo->table->table_mtx, &philo->table->end_simulation))
+	{
+		pthread_mutex_unlock(&philo->table->write_mtx);
+		return ;
+	}
+
 	if (state == GET_FORK)
 	{
 		print_time(philo->table);
@@ -40,7 +46,7 @@ void	write_state(t_philo *philo, t_state state)
 	else if (state == RELEASED)
 	{
 		print_time(philo->table);
-		printf("%d released the fork\n", philo->index + 1);
+		printf("%d released the forks!\n", philo->index + 1);
 	}
 	pthread_mutex_unlock(&philo->table->write_mtx);
 }

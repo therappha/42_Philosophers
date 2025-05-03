@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:06:52 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/03 19:45:49 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/03 20:48:02 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	table_input_init(int ac, char **av, t_table *table)
 		table -> must_eat = ft_atoi(av[5]);
 	else
 		table -> must_eat = -1;
-	printf("input validated with sucess!\n");
+	//printf("input validated with sucess!\n");
 	return (1);
 }
 
@@ -58,7 +58,7 @@ int	init_forks(t_table *table)
 		table->forks[i].fork_id = i;
 		i++;
 	}
-	printf("forks inited with sucess!\n");
+	//printf("forks inited with sucess!\n");
 	return (1);
 }
 
@@ -97,10 +97,11 @@ int	init_philos(t_table *table)
 		}
 		table->philos[i].index = i;
 		table->philos[i].table = table;
+		table->philos[i].last_eaten = -1;
 		assign_forks(table, &table->philos[i], table->forks);
 		i++;
 	}
-	printf("All philo struct malloced and inited!\n\n");
+	//printf("All philo struct malloced and inited!\n\n");
 	return (1);
 }
 
@@ -135,21 +136,24 @@ int	main(int ac, char **av)
 		//free forks
 		return (0);
 	}
-	for (int i = 0; i < table.philo_count; i++)
+	/*for (int i = 0; i < table.philo_count; i++)
 	{
 		printf("philo number %d has first_fork %p and second_fork %p assigned!\n\n", i + 1, &table.philos[i].first_fork->fork, &table.philos[i].second_fork->fork );
-	}
+	}*/
 	create_threads(&table, philo_count);
 	while (ft_get_int(&table.table_mtx, &table.philo_started) != philo_count)
 		;
 
 	table.start_time = get_time();
+	start_monitor(&table);
 	ft_set_int(&table.table_mtx, &table.start_simulation, 1);
 	for (int i = 0; i < philo_count; i++)
 	{
 		pthread_join(table.philos[i].philo_thread, NULL);
 	}
-	printf("All philosophers have eaten, simulation ended!\n");
+	pthread_join(table.monitor, NULL);
+	if (!table.end_simulation)
+		printf("All philosophers have eaten, simulation ended!\n");
 	//freeall
 	return (0);
 }
