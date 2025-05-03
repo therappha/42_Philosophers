@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:06:52 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/04/21 21:44:52 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/03 19:45:49 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ int	table_input_init(int ac, char **av, t_table *table)
 {
 	if (!ft_mutex_init(&table->table_mtx))
 		return (0);
+	if (!ft_mutex_init(&table->write_mtx))
+		return (0);
 	table -> start_simulation = 0;
 	table -> end_simulation = 0;
+	table -> philo_started = 0;
 	table -> philo_count = ft_atoi(av[1]);
 	table -> time_to_die = ft_atoi(av[2]);
 	table -> time_to_eat = ft_atoi(av[3]);
@@ -26,15 +29,10 @@ int	table_input_init(int ac, char **av, t_table *table)
 		table -> must_eat = ft_atoi(av[5]);
 	else
 		table -> must_eat = -1;
-	printf(GREEN"input validated with sucess!\n"RESET);
+	printf("input validated with sucess!\n");
 	return (1);
 }
-/*	gettimeofday(&tv, NULL);
-	long	launch_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	long current_time;
-	gettimeofday(&tv, NULL);
-	current_time = (tv.tv_sec * 1000) + (tv.tv_usec / 1000) - launch_time;
-*/
+
 
 int	init_forks(t_table *table)
 {
@@ -51,13 +49,16 @@ int	init_forks(t_table *table)
 		if (!ft_mutex_init(&table->forks[i].fork))
 		{
 			while (j < i)
+			{
 				pthread_mutex_destroy(&table->forks[j++].fork);
+				printf("Error initing fork mutexes!\n");
+			}
 			return (0);
 		}
 		table->forks[i].fork_id = i;
 		i++;
 	}
-	printf(GREEN "forks inited with sucess!\n" RESET);
+	printf("forks inited with sucess!\n");
 	return (1);
 }
 
@@ -66,13 +67,13 @@ void	assign_forks(t_table *table, t_philo *philo, t_fork *forks)
 
 	if ((philo->index + 1) % 2 == 0)
 	{
-		philo->first_fork = forks[philo->index];
-		philo->second_fork = forks[(philo->index + 1) % table->philo_count];
+		philo->first_fork = &forks[philo->index];
+		philo->second_fork = &forks[(philo->index + 1) % table->philo_count];
 	}
 	else
 	{
-		philo->first_fork = forks[(philo->index + 1) % table->philo_count];
-		philo->second_fork = forks[philo->index];
+		philo->first_fork = &forks[(philo->index + 1) % table->philo_count];
+		philo->second_fork = &forks[philo->index];
 	}
 }
 
@@ -99,42 +100,34 @@ int	init_philos(t_table *table)
 		assign_forks(table, &table->philos[i], table->forks);
 		i++;
 	}
-	printf(GREEN"All philo struct malloced and inited!\n"RESET);
+	printf("All philo struct malloced and inited!\n\n");
 	return (1);
 }
 
-void *routine(void *data)
+void	create_threads(t_table *table, int philo_count)
 {
-	t_philo *current_philo = (t_philo *)data;
-	t_table *table = current_philo -> table;
+	t_philo *philos = table->philos;
 
-	printf(YELLOW"philosoper %d is waiting!\n"RESET, current_philo->index+1);
-	while (!(ft_get_int(&table->table_mtx, &table->start_simulation)))
-		;
-	printf(GREEN"philosoper %d has started!\n"RESET, current_philo->index+1);
-
-	if (table->philo_count == 1)
+	for (int i = 0; i < philo_count; i++)
 	{
-		//wait for death;  // fake grab fork, wait inevitable fate
-		return (NULL);
+		if (!ft_thread_init(&philos[i].philo_thread, &philos[i]))
+		{
+			for (int j = 0; j < i; j++);
+				// free threads? this is just a concept here
+		}
 	}
-	while (!(ft_get_int(&table->table_mtx, &table->end_simulation)))
-	{
-		//eat(current_philo);
-		//think(current_philo);
-		//sleep(current_philo);
-	}
-	return (NULL);
 }
 
 int	main(int ac, char **av)
 {
 	t_table			table;
+	int				philo_count;
 
 	if (ac != 5 && ac != 6)
 		return (0);
 	if (!table_input_init(ac, av, &table))
 		return (0);
+	philo_count = table.philo_count;
 	if (!init_forks(&table))
 		return (0);
 	if (!init_philos(&table))
@@ -144,10 +137,19 @@ int	main(int ac, char **av)
 	}
 	for (int i = 0; i < table.philo_count; i++)
 	{
-		printf(YELLOW"philo number %d has first_fork %d and second_fork %d assigned!\n"RED, i + 1, table.philos[i].first_fork.fork_id, table.philos[i].second_fork.fork_id);
+		printf("philo number %d has first_fork %p and second_fork %p assigned!\n\n", i + 1, &table.philos[i].first_fork->fork, &table.philos[i].second_fork->fork );
 	}
-	//init monitor
-	//start_simulation;
+	create_threads(&table, philo_count);
+	while (ft_get_int(&table.table_mtx, &table.philo_started) != philo_count)
+		;
+
+	table.start_time = get_time();
+	ft_set_int(&table.table_mtx, &table.start_simulation, 1);
+	for (int i = 0; i < philo_count; i++)
+	{
+		pthread_join(table.philos[i].philo_thread, NULL);
+	}
+	printf("All philosophers have eaten, simulation ended!\n");
 	//freeall
 	return (0);
 }
