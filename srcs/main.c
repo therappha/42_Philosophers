@@ -6,32 +6,11 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:06:52 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/04 20:20:27 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:07:51 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
-
-int	table_input_init(int ac, char **av, t_table *table)
-{
-	if (!ft_mutex_init(&table->table_mtx))
-		return (0);
-	if (!ft_mutex_init(&table->write_mtx))
-		return (0);
-	table -> start_simulation = 0;
-	table -> philos = NULL;
-	table -> end_simulation = 0;
-	table -> philo_started = 0;
-	table -> philo_count = ft_atoll(av[1]);
-	table -> time_to_die = ft_atoll(av[2]);
-	table -> time_to_eat = ft_atoll(av[3]);
-	table -> time_to_sleep = ft_atoll(av[4]);
-	if (ac == 6)
-		table -> must_eat = ft_atoll(av[5]);
-	else
-		table -> must_eat = -1;
-	return (1);
-}
 
 int	init_philos(t_table *table)
 {
@@ -106,12 +85,13 @@ int	main(int ac, char **av)
 		return (0);
 	if (!init_forks(&table))
 	{
-		//free_table_input
+		free_table_mutex(&table);
 		return (0);
 	}
 	if (!init_philos(&table))
 	{
-		//destroyforks
+		free_table_mutex(&table);
+		free_forks(&table);
 		return (0);
 	}
 	create_threads(&table);
@@ -119,6 +99,6 @@ int	main(int ac, char **av)
 		!= table.philo_count)
 		;
 	start_simulation(&table);
-	//freeall
+	free_all(&table);
 	return (0);
 }

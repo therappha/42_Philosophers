@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:32:04 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/04 20:19:55 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:10:01 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 struct					s_table;
 typedef struct s_table	t_table;
 
-typedef	pthread_mutex_t t_mtx;
+typedef pthread_mutex_t	t_mtx;
 
 typedef enum e_state
 {
@@ -32,12 +32,12 @@ typedef enum e_state
 	SLEEPING,
 	THINKING,
 	GET_FORK,
-} t_state;
+}	t_state;
 
 typedef struct s_fork
 {
-	t_mtx	fork;
-	int				fork_id;
+	t_mtx		fork;
+	int			fork_id;
 }	t_fork;
 
 typedef struct s_philo
@@ -50,7 +50,7 @@ typedef struct s_philo
 	t_fork			*first_fork;
 	t_fork			*second_fork;
 	t_table			*table;
-	t_mtx	philo_mutex;
+	t_mtx			philo_mutex;
 }	t_philo;
 
 typedef struct s_table
@@ -66,11 +66,16 @@ typedef struct s_table
 	int				must_eat;
 	t_fork			*forks;
 	t_philo			*philos;
-	t_mtx	write_mtx;
-	t_mtx	table_mtx;
+	t_mtx			write_mtx;
+	t_mtx			table_mtx;
 	pthread_t		monitor;
 }	t_table;
 
+//input
+int			valid_input(int ac, char **av, t_table *table);
+int			table_input_init(int ac, char **av, t_table *table);
+int			get_input(char **av, t_table *table);
+int			ft_is_numeric(char *num_str);
 
 long long	ft_atoll(char *str);
 int			ft_mutex_init(t_mtx *mutex);
@@ -84,9 +89,9 @@ int			start_monitor(t_table *table);
 long long	get_time(void);
 
 void		*routine(void *data);
-int	sleeping(t_philo *philo);
-int	think(t_philo *philo);
-int	eating(t_philo *philo);
+int			sleeping(t_philo *philo);
+int			think(t_philo *philo);
+int			eating(t_philo *philo);
 
 //getters_setters
 int			ft_get_int(t_mtx *mutex, int *variable);
@@ -94,4 +99,10 @@ void		ft_set_int(t_mtx *mutex, int *variable, int newvalue);
 void		ft_set_ll(t_mtx *mutex, long long *variable, long long newvalue);
 long long	ft_get_ll(t_mtx *mutex, long long *variable);
 int			ft_thread_init(pthread_t *thread, t_philo *arg);
+
+//free
+void		free_table_mutex(t_table *table);
+void		free_forks(t_table *table);
+void		free_all(t_table *table);
+
 #endif

@@ -19,7 +19,10 @@ $(SRCS_DIR)/think.c \
 $(SRCS_DIR)/sleep.c \
 $(SRCS_DIR)/monitor.c \
 $(SRCS_DIR)/getters_setters.c \
-$(SRCS_DIR)/init_forks.c
+$(SRCS_DIR)/init_forks.c \
+$(SRCS_DIR)/free_philo.c \
+$(SRCS_DIR)/input_handler.c \
+
 
 OBJS= $(SRCS:.c=.o)
 
