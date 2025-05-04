@@ -9,7 +9,7 @@ CFLAGS = -g -Wall -Werror -Wextra -pthread -fsanitize=thread -I $(INCLUDES)
 SRCS_DIR= ./srcs
 
 SRCS= $(SRCS_DIR)/main.c \
-$(SRCS_DIR)/ft_atoi.c \
+$(SRCS_DIR)/ft_atoll.c \
 $(SRCS_DIR)/pthread_helpers.c \
 $(SRCS_DIR)/get_time.c \
 $(SRCS_DIR)/state.c \
@@ -17,10 +17,11 @@ $(SRCS_DIR)/routine.c \
 $(SRCS_DIR)/eat.c \
 $(SRCS_DIR)/think.c \
 $(SRCS_DIR)/sleep.c \
-$(SRCS_DIR)/monitor.c
+$(SRCS_DIR)/monitor.c \
+$(SRCS_DIR)/getters_setters.c \
+$(SRCS_DIR)/init_forks.c
 
 OBJS= $(SRCS:.c=.o)
-
 
 all: $(NAME)
 	@echo "Project built, execute with ./philo"

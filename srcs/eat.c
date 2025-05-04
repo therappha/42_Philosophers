@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:43:53 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/03 20:40:51 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/04 20:01:07 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,24 @@ void	get_second_fork(t_philo *philo)
 
 void	release_forks(t_philo *philo)
 {
-	write_state(philo, RELEASED);
 	pthread_mutex_unlock(&philo->first_fork->fork);
 	pthread_mutex_unlock(&philo->second_fork->fork);
 }
 
 int	eating(t_philo *philo)
 {
-	if (ft_get_int(&philo->table->table_mtx, &philo->table->end_simulation) ||
-		(philo->table->must_eat != -1 && philo->eaten == philo->table->must_eat))
-			return (0);
+	if ((philo->table->must_eat != -1 && philo->full))
+		return (0);
+	if (ft_get_int(&philo->table->table_mtx, &philo->table->end_simulation))
+		return (0);
 	get_first_fork(philo);
 	get_second_fork(philo);
-	write_state(philo, EATING);
 	pthread_mutex_lock(&philo->philo_mutex);
+	write_state(philo, EATING);
 	philo->last_eaten = get_time();
 	philo->eaten++;
+	if (philo->eaten == philo->table->must_eat)
+		philo->full = 1;
 	pthread_mutex_unlock(&philo->philo_mutex);
 	usleep(philo->table->time_to_eat * 1000);
 	release_forks(philo);
