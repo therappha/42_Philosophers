@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 21:32:04 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/04 21:10:01 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:52:58 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void		write_state(t_philo *philo, t_state state);
 
 int			start_monitor(t_table *table);
 long long	get_time(void);
+void		ft_usleep(int	time, t_philo *philo);
 
 void		*routine(void *data);
 int			sleeping(t_philo *philo);

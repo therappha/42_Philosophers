@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:43:53 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/04 20:01:07 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/04 21:54:15 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ int	eating(t_philo *philo)
 	if (philo->eaten == philo->table->must_eat)
 		philo->full = 1;
 	pthread_mutex_unlock(&philo->philo_mutex);
-	usleep(philo->table->time_to_eat * 1000);
+	ft_usleep(philo->table->time_to_eat, philo);
 	release_forks(philo);
+	if (ft_get_int(&philo->table->table_mtx, &philo->table->end_simulation))
+		return (0);
 	return (1);
 }
