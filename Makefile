@@ -4,7 +4,7 @@ CC= cc
 
 INCLUDES= ./includes
 
-CFLAGS = -g -Wall -Werror -Wextra -pthread -fsanitize=thread -I $(INCLUDES)
+CFLAGS = -Wall -Werror -Wextra -pthread -I $(INCLUDES)
 
 SRCS_DIR= ./srcs
 
