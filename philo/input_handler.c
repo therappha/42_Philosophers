@@ -6,11 +6,11 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 21:07:59 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/04 21:11:03 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:08:00 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "./philo.h"
 
 int	ft_is_numeric(char *num_str)
 {
@@ -77,6 +77,8 @@ int	valid_input(int ac, char **av, t_table *table)
 			return (0);
 		table->must_eat = must_eat;
 	}
+	else
+		table->must_eat = -1;
 	return (1);
 }
 

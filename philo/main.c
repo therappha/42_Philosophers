@@ -6,11 +6,11 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 20:06:52 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/04 21:07:51 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:07:08 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "./philo.h"
 
 int	init_philos(t_table *table)
 {
@@ -35,8 +35,8 @@ int	init_philos(t_table *table)
 		table->philos[i].table = table;
 		table->philos[i].last_eaten = -1;
 		table->philos[i].full = 0;
-		assign_forks(table, &table->philos[i], table->forks);
-		i++;
+		table->philos[i].eaten = 0;
+		assign_forks(table, &table->philos[i++], table->forks);
 	}
 	return (1);
 }
@@ -97,7 +97,7 @@ int	main(int ac, char **av)
 	create_threads(&table);
 	while (ft_get_int(&table.table_mtx, &table.philo_started)
 		!= table.philo_count)
-		;
+		usleep(500);
 	start_simulation(&table);
 	free_all(&table);
 	return (0);

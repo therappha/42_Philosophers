@@ -6,11 +6,11 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 15:08:51 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/04 19:36:44 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:07:08 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "./philo.h"
 
 void	print_get_fork(t_philo *philo)
 {

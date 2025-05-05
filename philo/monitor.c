@@ -6,11 +6,11 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 19:51:29 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/04 20:09:21 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:07:08 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "./philo.h"
 
 void	kill_philo(t_table *table, int i)
 {
@@ -34,7 +34,7 @@ void	*monitor(void *arg)
 
 	table = arg;
 	while (!ft_get_int(&table->table_mtx, &table->start_simulation))
-		;
+		usleep(500);
 	while (!ft_get_int(&table->table_mtx, &table->end_simulation))
 	{
 		i = 0;
@@ -51,6 +51,7 @@ void	*monitor(void *arg)
 			pthread_mutex_unlock(&table->philos[i].philo_mutex);
 			i++;
 		}
+		usleep(10);
 	}
 	return (NULL);
 }

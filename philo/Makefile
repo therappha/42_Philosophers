@@ -2,11 +2,11 @@ NAME= philo
 
 CC= cc
 
-INCLUDES= ./includes
+INCLUDES= ./philo.h
 
 CFLAGS = -Wall -Werror -Wextra -pthread -I $(INCLUDES)
 
-SRCS_DIR= ./srcs
+SRCS_DIR= ./
 
 SRCS= $(SRCS_DIR)/main.c \
 $(SRCS_DIR)/ft_atoll.c \

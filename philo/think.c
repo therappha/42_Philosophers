@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_time.c                                         :+:      :+:    :+:   */
+/*   think.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 18:16:49 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/04 19:54:46 by rafaelfe         ###   ########.fr       */
+/*   Created: 2025/05/03 17:12:28 by rafaelfe          #+#    #+#             */
+/*   Updated: 2025/05/05 19:07:08 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "./philo.h"
 
-long long	get_time(void)
+int	think(t_philo *philo)
 {
-	struct timeval	tv;
+	int	time;
 
-	gettimeofday(&tv, NULL);
-	return ((long long)(tv.tv_sec * 1000) + (tv.tv_usec / 1000));
-}
-
-void	print_time(t_table	*table)
-{
-	printf("%lld ", get_time() - table->start_time);
+	if (ft_get_int(&philo->table->table_mtx, &philo->table->end_simulation))
+		return (0);
+	write_state(philo, THINKING);
+	time = philo->table->time_to_die - philo->table->time_to_eat
+		- philo->table->time_to_sleep;
+	if (time > 100)
+	{
+		ft_usleep(10, philo);
+	}
+	return (1);
 }

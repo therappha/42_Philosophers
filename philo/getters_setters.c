@@ -6,11 +6,11 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/04 19:39:13 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/04 20:09:44 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:07:08 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "./philo.h"
 
 int	ft_get_int(t_mtx *mutex, int *variable)
 {

@@ -1,29 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   think.c                                            :+:      :+:    :+:   */
+/*   sleep.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 17:12:28 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/05 18:08:50 by rafaelfe         ###   ########.fr       */
+/*   Created: 2025/05/03 17:13:47 by rafaelfe          #+#    #+#             */
+/*   Updated: 2025/05/05 19:07:08 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "./philo.h"
 
-int	think(t_philo *philo)
+int	sleeping(t_philo *philo)
 {
-	int	time;
-
 	if (ft_get_int(&philo->table->table_mtx, &philo->table->end_simulation))
 		return (0);
-	write_state(philo, THINKING);
-	time = philo->table->time_to_die - philo->table->time_to_eat
-		- philo->table->time_to_sleep;
-	if (time > 100)
-	{
-		ft_usleep(10, philo);
-	}
+	write_state(philo, SLEEPING);
+	ft_usleep(philo->table->time_to_sleep, philo);
+	if (ft_get_int(&philo->table->table_mtx, &philo->table->end_simulation))
+		return (0);
 	return (1);
 }

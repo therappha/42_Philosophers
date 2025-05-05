@@ -6,11 +6,11 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:43:53 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/04 21:54:15 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:07:08 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "./philo.h"
 
 void	get_first_fork(t_philo *philo)
 {
@@ -32,7 +32,7 @@ void	release_forks(t_philo *philo)
 
 int	eating(t_philo *philo)
 {
-	if ((philo->table->must_eat != -1 && philo->full))
+	if ((philo->full))
 		return (0);
 	if (ft_get_int(&philo->table->table_mtx, &philo->table->end_simulation))
 		return (0);

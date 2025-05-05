@@ -1,24 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sleep.c                                            :+:      :+:    :+:   */
+/*   get_time.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/03 17:13:47 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/04 21:56:18 by rafaelfe         ###   ########.fr       */
+/*   Created: 2025/05/03 18:16:49 by rafaelfe          #+#    #+#             */
+/*   Updated: 2025/05/05 19:07:08 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "./philo.h"
 
-int	sleeping(t_philo *philo)
+long long	get_time(void)
 {
-	if (ft_get_int(&philo->table->table_mtx, &philo->table->end_simulation))
-		return (0);
-	write_state(philo, SLEEPING);
-	ft_usleep(philo->table->time_to_sleep, philo);
-	if (ft_get_int(&philo->table->table_mtx, &philo->table->end_simulation))
-		return (0);
-	return (1);
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((long long)(tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+}
+
+void	print_time(t_table	*table)
+{
+	printf("%lld ", get_time() - table->start_time);
 }

@@ -6,11 +6,11 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:40:34 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/05 18:33:18 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/05 19:07:08 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
+#include "./philo.h"
 
 int	lone_routine(t_table *table, t_philo *philo)
 {
@@ -34,7 +34,7 @@ void	*routine(void *data)
 	table->philo_started++;
 	pthread_mutex_unlock(&table->table_mtx);
 	while (!(ft_get_int(&table->table_mtx, &table->start_simulation)))
-		;
+		usleep(100);
 	pthread_mutex_lock(&philo->philo_mutex);
 	philo->last_eaten = get_time();
 	pthread_mutex_unlock(&philo->philo_mutex);
