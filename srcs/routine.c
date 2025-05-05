@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 16:40:34 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/04 19:56:38 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/05 18:33:18 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ int	lone_routine(t_table *table, t_philo *philo)
 	if (table->philo_count == 1)
 	{
 		write_state(philo, GET_FORK);
-		while (!(ft_get_int(&table->table_mtx, &table->end_simulation)))
-			usleep(50);
+		ft_usleep(table->time_to_die, philo);
 		return (1);
 	}
 	return (0);
