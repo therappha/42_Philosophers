@@ -6,7 +6,7 @@
 /*   By: rafaelfe <rafaelfe@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/03 17:12:28 by rafaelfe          #+#    #+#             */
-/*   Updated: 2025/05/05 17:19:56 by rafaelfe         ###   ########.fr       */
+/*   Updated: 2025/05/05 17:36:52 by rafaelfe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	think(t_philo *philo)
 	time = philo->table->time_to_die - philo->table->time_to_eat - philo->table->time_to_sleep;
 	if (time > 100)
 	{
-		ft_usleep(time, philo);
+		ft_usleep(10, philo);
 	}
 	return (1);
 }
